@@ -1,0 +1,177 @@
+@startuml diagrama
+
+class Maquina{
+    +Encender()
+    +Apagar()
+    -GestorJuego: juegos[10]
+}
+
+class GestorJuego{
+    +BuscarJuego()
+    +SeleccionarJuego()
+    -JuegoPacman: juegoActual
+}
+
+class JuegoPacman{
+    +IniciarJuego()
+    +PausarJuego()
+    +FinalizarJuego()
+    +ReiniciarJuego()
+    -GestorSonido: sonido
+    -GestorColisiones: colisiones
+    -Personaje: personajes[5]
+    -Mapa: mapaJuego
+    -Movimiento: movimientos[*]
+}
+
+class Personaje{
+    +Morir()
+    +Reaparecer()
+    +Moverse()
+    -Coordenada: coorActual
+    -Animacion: animaciones[*]
+}
+
+class Depredador{
+    +Perseguir()
+}
+
+class Presa{
+    +Huir()
+}
+
+class Pacman{
+    +Consumir()
+    -Consumible: consumibles[50]
+}
+
+class Fantasma{
+    +CambiarModo()
+    -color: Color
+    -velocidad: int
+}
+
+class PowerUp{
+    +Activar()
+    -duracion: int
+}
+
+class Animacion{
+    +IniciarAnimacion()
+    +DetenerAnimacion()
+    -Dibujo: dibujo
+}
+
+class Dibujo{
+    -Coordenada: actual
+    -direccion
+}
+
+class Consumible{
+    +Consumir()
+}
+
+class Bolita extends Consumible{
+    -Coordenada: posicion
+    -puntos
+    -Color: color
+}
+
+class SuperBolita extends Bolita{
+    +OtorgarPoder()
+    -duracion
+}
+
+class Muro{
+    -Coordenada: posicion
+}
+
+class Mapa{
+    +GenerarMapa()
+    +ReiniciarMapa()
+    -Muro: murosP[50]
+    -Bolita: bolitas[100]
+    -Color: colorMapa
+}
+
+class Laberinto extends Mapa{
+    +ChecarColisiones(personaje: Personaje)
+}
+
+class Movimiento{
+    +CalcularMovimiento()
+    -Personaje: personajes[1]
+}
+
+class GestorSonido{
+    +ReproducirSonido()
+    +Silenciar()
+    -Sonido: sonidos[10]
+}
+
+class Sonido{
+    -archivo
+}
+
+class GestorColisiones{
+    +EvaluarColision()
+    -Muro: muroColision
+}
+
+class Colisionable{
+    +DetectarColision()
+}
+
+class Color{
+    -rgb
+}
+
+class Azul 
+class Naranja 
+class Rojo 
+class Rosa 
+
+class Coordenada{
+    -X: posicion1
+    -Y: posicion2
+}
+class X
+class Y
+
+Maquina "1" *-- "1" GestorJuego
+GestorJuego "1" *-- "1" JuegoPacman
+JuegoPacman "1" *-- "1" GestorSonido
+JuegoPacman "1" *-- "1" GestorColisiones
+JuegoPacman "1" *-- "5" Personaje
+JuegoPacman "1" *-- "1" Mapa
+JuegoPacman "1" *-- "*" Movimiento
+Personaje <|-- Depredador
+Personaje <|-- Presa
+Depredador <|-- Fantasma
+Presa <|-- Pacman
+Pacman "1" o-- "*" Consumible
+Consumible <|-- PowerUp
+Animacion "1" *-- "*" Dibujo
+Bolita "1" *-- "1...*"Color
+Color <|-- Azul
+Color <|-- Naranja
+Color <|-- Rojo
+Color <|-- Rosa
+Mapa "1" *-- "*" Color
+Mapa "1" *-- "*" Muro
+Mapa "1" *-- "*" Bolita
+Personaje "1" o-- "0...*" Movimiento
+Movimiento "1" o-- "*" Animacion
+Dibujo "1" *-- "1" Coordenada
+Laberinto "1" *-- "*" Muro
+GestorSonido "1" o-- "*" Sonido
+GestorColisiones "1" o-- "*" Muro
+GestorColisiones "1" o-- "5" Personaje
+Colisionable <|-- Muro
+Colisionable <|-- Personaje
+Coordenada "1" *-- "1" X
+Coordenada "1" *-- "1" Y
+
+@enduml
+
+
