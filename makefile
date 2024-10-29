@@ -4,11 +4,18 @@ run : bin/tazo
 runMem : bin/mem
 	./bin/mem
 
-bin/tazo : src/main.cpp
-	g++ src/main.cpp -Iinclude -o bin/tazo
+runAnimacion : bin/animacion
+	./bin/animacion
+
+bin/animacion : src/canvas_animated.cpp
+	g++ src/canvas_animated.cpp -Iinclude -o bin/animacion -std=c++2a -lftxui-screen -lftxui-dom -lftxui-component 
+
+bin/tazo : src/Main.cpp
+	g++ src/Main.cpp -Iinclude -o bin/tazo
 
 bin/mem : src/memoria.cpp
 	g++ src/memoria.cpp -Iinclude -o bin/mem
 
-asset/mensaje : bin/tazo
-	./bin/tazo > asset/mensaje
+
+assets/mensaje : bin/tazo
+	./bin/tazo > assets/mensaje
